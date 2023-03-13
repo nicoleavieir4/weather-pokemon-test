@@ -1,10 +1,3 @@
-/*
-Lugares onde a temperatura for maior que 33ºC, deve-se retornar um pokémon do tipo fogo (fire).
-Para qualquer outra temperatura, deve-se retornar um pokémon do tipo normal.
-E, no caso em que esteja chovendo na região um pokémon elétrico (electric) deve ser retornado, independente da temperatura.
-O pokémon mostrado deve ser aleatório e não deve aparecer duas vezes consecutivas;
-*/
-
 function wetherToPokemonType(temperature, isRain) {
     if (isRain) return "eletric";
 
