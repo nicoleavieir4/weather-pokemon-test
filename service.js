@@ -1,5 +1,5 @@
 function wetherToPokemonType(temperature, isRain) {
-  if (isRain) return "eletric";
+  if (isRain) return "electric";
 
   if (temperature < 5) {
     return "ice";

@@ -1,38 +1,20 @@
-const pokemon = [
-  {
-    pokemon: {
-      name: "pikachu",
-      url: "https://pokeapi.co/api/v2/pokemon/25/",
-    },
-    slot: 1,
-  },
-  {
-    pokemon: {
-      name: "raichu",
-      url: "https://pokeapi.co/api/v2/pokemon/26/",
-    },
-    slot: 1,
-  },
-  {
-    pokemon: {
-      name: "magnemite",
-      url: "https://pokeapi.co/api/v2/pokemon/81/",
-    },
-    slot: 1,
-  },
-];
+const axios = require("axios");
 
 function sortIndex(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-// console.log(sortIndex(0, 2))
+async function getPokemon(type) {
+  const response = await axios.get(`https://pokeapi.co/api/v2/type/${type}/`);
+  const pokemon = response.data.pokemon
+  const index = sortIndex(0, pokemon.length);
 
-function getPokemon() {
-  const index = sortIndex(0, 3);
   var pokemonName = pokemon[index].pokemon.name;
 
+  console.log(pokemonName)
+
   return pokemonName;
+ 
 }
 
 module.exports = getPokemon;

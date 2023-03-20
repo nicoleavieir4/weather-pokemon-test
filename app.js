@@ -27,13 +27,13 @@ const cities = [
   },
 ];
 
-server.get("/pokemon/search", (req, res) => {
+server.get("/pokemon/search", async (req, res) => {
   const { city } = req.query; //recebe o valor do client
   const cityResult = cities.find((localCity) => localCity.name == city); // verificando se a cidade recebida existe no array (registrada)
   if (cityResult) {
     // se cityResult existe, entao ele retorna a cidade encontrada
     const type = service(cityResult.temperature, cityResult.isRaining);
-    const pokemon = getPokemon()
+    const pokemon = await getPokemon(type)
 
     const body = {
       name: cityResult.name,
