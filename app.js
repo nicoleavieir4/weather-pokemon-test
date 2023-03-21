@@ -1,35 +1,14 @@
 const express = require("express");
 const getPokemon = require("./pokemon-api");
 const service = require("./service");
+const weatherMap = require("./weather-map");
 
 const server = express();
 const port = 3000;
-const cities = [
-  {
-    name: "CAMPINAS",
-    temperature: 32,
-    isRaining: true,
-  },
-  {
-    name: "SÃO PAULO",
-    temperature: 22,
-    isRaining: true,
-  },
-  {
-    name: "CURITIBA",
-    temperature: 2,
-    isRaining: false,
-  },
-  {
-    name: "ALAGOAS",
-    temperature: 39,
-    isRaining: false,
-  },
-];
 
 server.get("/pokemon/search", async (req, res) => {
   const { city } = req.query; //recebe o valor do client
-  const cityResult = cities.find((localCity) => localCity.name == city); // verificando se a cidade recebida existe no array (registrada)
+  const cityResult = await weatherMap(city); 
   if (cityResult) {
     // se cityResult existe, entao ele retorna a cidade encontrada
     const type = service(cityResult.temperature, cityResult.isRaining);
