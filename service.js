@@ -20,4 +20,4 @@ function wetherToPokemonType(temperature, isRain) {
   }
 }
 
-module.exports = wetherToPokemonType
+module.exports = wetherToPokemonType;
