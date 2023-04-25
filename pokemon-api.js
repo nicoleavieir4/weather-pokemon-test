@@ -1,3 +1,20 @@
+/*
+
+  1 passo: queremos encontrar uma lista de pokemon por tipo (ok)
+  2 passo: sortear um pokemon dessa lista (ok)
+  3 passo: obter o nome do pokemon sorteado (ok)
+  4 passo: obter o ID do pokemon sorteado
+  5 passo: obter a imagem do pokemon sorteado
+    5.1 passo: a partir do ID do pokemon, buscar detalhes sobre ele (ex: https://pokeapi.co/api/v2/pokemon/25/)
+    5.2 passo: encontrar o objeto sprites dentro do retorno da chamada da API do passo acima
+    5.3 passo: dentro do objeto sprites, obter a URL da imagem a partir da propriedade "front_default"
+  6 passo: retornar na function getPokemon um objeto com as propriedades name e url baseado nas informacoes encontradas nos passos
+  anteriores (ate aqui é tudo dentro da function getPokemon)
+  7 passo: refatorar todo o fluxo acima da function getPokemon para exibir tanto o nome quanto a url do pokemon sorteado
+
+
+*/
+
 const axios = require("axios");
 
 function sortIndex(min, max) {
@@ -5,26 +22,19 @@ function sortIndex(min, max) {
 }
 
 async function getPokemon(type) {
-  const response = await axios.get(`https://pokeapi.co/api/v2/type/${type}/`);
-  const pokemon = response.data.pokemon;
-  const index = sortIndex(0, pokemon.length);
+  const response = await axios.get(`https://pokeapi.co/api/v2/type/${type}/`); // obtemos a lista de pokemon por tipo
+  const pokemonList = response.data.pokemon; // pegamos a lista de pokemons do resultado da chamada acima
+  const index = sortIndex(0, pokemonList.length); // sorteamos um pokemon dentro da lista
 
-  var pokemonName = pokemon[index].pokemon.name;
+  const pokemon = pokemonList[index].pokemon; // obtemos o pokemon sorteado da lista
 
-  return pokemonName;
+  const imageUrl = pokemon.url; // obtemos a url do pokemon sorteado
+
+  const responseImg = await axios.get(imageUrl);
+  const image = responseImg.data.sprites.front_default;
+
+  // codigo aqui, pegar a url e fazer uma chamada para a api (inicio do passo 5)
+  return { name: pokemon.name, image: image }; // retornar pokemonName e URL da imagem, pokemon possui as propriedades name e url
 }
 
 module.exports = getPokemon;
-
-/* 
-
-1 passo: sortear um numero de 0 a 2 
-2 passo: guardar o numero sorteado em uma constante chamada index
-3 passo: pegar do array de pokemons o item baseado no index sorteado
-4 passo: guardar o item encontrado em uma constante chamada "pokemon" 
-5 passo: printar/exibir no console.log a constante pokemon
-6 passo: obter o nome do pokemon a partir da const pokemon
-
-Retornar nome do pokemon
-
-*/
