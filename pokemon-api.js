@@ -6,15 +6,12 @@ function sortIndex(min, max) {
 
 async function getPokemon(type) {
   const response = await axios.get(`https://pokeapi.co/api/v2/type/${type}/`);
-  const pokemon = response.data.pokemon
+  const pokemon = response.data.pokemon;
   const index = sortIndex(0, pokemon.length);
 
   var pokemonName = pokemon[index].pokemon.name;
 
-  console.log(pokemonName)
-
   return pokemonName;
- 
 }
 
 module.exports = getPokemon;

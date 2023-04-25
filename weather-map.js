@@ -12,8 +12,6 @@ async function weatherMap(cityName) {
     isRaining: weather.main == "Rain",
   };
 
-  console.log(weather.main);
-
   return city;
 }
 

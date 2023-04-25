@@ -8,11 +8,11 @@ const port = 3000;
 
 server.get("/pokemon/search", async (req, res) => {
   const { city } = req.query; //recebe o valor do client
-  const cityResult = await weatherMap(city); 
+  const cityResult = await weatherMap(city);
   if (cityResult) {
     // se cityResult existe, entao ele retorna a cidade encontrada
-    const type = service(cityResult.temperature, cityResult.isRaining);
-    const pokemon = await getPokemon(type)
+    const type = service.wetherToPokemonType(cityResult.temperature, cityResult.isRaining);
+    const pokemon = await getPokemon(type);
 
     const body = {
       name: cityResult.name,
@@ -25,11 +25,10 @@ server.get("/pokemon/search", async (req, res) => {
 
     return res.status(200).json(body);
     // OU => return res.status(200).json({...cityResult, type});
-
   } else {
     // const erro = { error: "city not found" };
 
-    return res.status(404).json({error: "city not found"})
+    return res.status(404).json({ error: "city not found" });
   }
 
   // const statusRet = res.response
