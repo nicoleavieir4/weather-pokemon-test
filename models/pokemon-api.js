@@ -1,20 +1,3 @@
-/*
-
-  1 passo: queremos encontrar uma lista de pokemon por tipo (ok)
-  2 passo: sortear um pokemon dessa lista (ok)
-  3 passo: obter o nome do pokemon sorteado (ok)
-  4 passo: obter o ID do pokemon sorteado
-  5 passo: obter a imagem do pokemon sorteado
-    5.1 passo: a partir do ID do pokemon, buscar detalhes sobre ele (ex: https://pokeapi.co/api/v2/pokemon/25/)
-    5.2 passo: encontrar o objeto sprites dentro do retorno da chamada da API do passo acima
-    5.3 passo: dentro do objeto sprites, obter a URL da imagem a partir da propriedade "front_default"
-  6 passo: retornar na function getPokemon um objeto com as propriedades name e url baseado nas informacoes encontradas nos passos
-  anteriores (ate aqui é tudo dentro da function getPokemon)
-  7 passo: refatorar todo o fluxo acima da function getPokemon para exibir tanto o nome quanto a url do pokemon sorteado
-
-
-*/
-
 const axios = require("axios");
 
 function sortIndex(min, max) {
