@@ -7,47 +7,62 @@ function renderResult(result) {
     resultContent.innerHTML = "";
   }
 
-  const tableHeader = document.createElement(`table`);
-  const tbodyHeader = document.createElement(`tbody`);
+  const cityName = document.createElement("h3");
+  cityName.textContent = `Cidade: ${result.name}`;
+  resultContent.appendChild(cityName);
 
-  const city = document.createElement("tr");
-  city.innerHTML = `<td>Cidade:</td><td>${result.name}</td>`;
-  tbodyHeader.appendChild(city);
+  const temperature = document.createElement("p");
+  temperature.textContent = `Temperatura: ${result.temperature}`;
+  resultContent.appendChild(temperature);
 
-  const temperature = document.createElement("tr");
-  temperature.innerHTML = `<td>Temperatura:</td><td>${result.temperature}</td>`;
-  tbodyHeader.appendChild(temperature);
+  const climate = document.createElement("p");
+  climate.textContent = `Chuva: ${result.isRaining}`;
+  resultContent.appendChild(climate);
 
-  const climate = document.createElement("tr");
-  climate.innerHTML = `<td>Chuva:</td><td>${result.isRaining}</td>`;
-  tbodyHeader.appendChild(climate);
+  const type = document.createElement("p");
+  type.textContent = `Tipo: ${result.type}`;
+  resultContent.appendChild(type);
 
-  const type = document.createElement("tr");
-  type.innerHTML = `<td>Tipo:</td><td>${result.type}</td>`;
-  tbodyHeader.appendChild(type);
-
-  tableHeader.appendChild(tbodyHeader);
-  resultContent.appendChild(tableHeader);
+  const pokemonList = document.createElement("ul");
+  pokemonList.style.listStyle = "none";
+  pokemonList.style.padding = "0";
+  pokemonList.style.marginTop = "10px";
 
   for (let i = 0; i < result.pokemons.length; i++) {
-    const table = document.createElement(`table-${i}`);
-    const tbody = document.createElement(`tbody-${i}`);
+    const pokemon = result.pokemons[i];
 
-    const namePok = document.createElement("tr");
-    namePok.innerHTML = `<td>Pokemon:</td><td>${result.pokemons[i].name}</td>`;
-    tbody.appendChild(namePok);
+    const listItem = document.createElement("li");
+    listItem.style.display = "flex";
+    listItem.style.alignItems = "center";
+    listItem.style.marginBottom = "10px";
 
-    const pokemonImageCell = document.createElement("td");
-    pokemonImageCell.rowSpan = "5";
+    const pokemonName = document.createElement("span");
+    pokemonName.textContent = pokemon.name;
+    listItem.appendChild(pokemonName);
+
     const pokemonImage = document.createElement("img");
-    pokemonImage.src = result.pokemons[i].image;
+    pokemonImage.src = pokemon.image;
     pokemonImage.width = "80";
     pokemonImage.height = "80";
-    pokemonImageCell.appendChild(pokemonImage);
-    namePok.appendChild(pokemonImageCell);
+    pokemonImage.style.marginLeft = "10px";
+    listItem.appendChild(pokemonImage);
 
-    table.appendChild(tbody);
-    resultContent.appendChild(table);
+    const favoriteStar = document.createElement("span");
+    favoriteStar.classList.add("favorite-star");
+    favoriteStar.textContent = "⭐";
+    favoriteStar.style.marginLeft = "10px";
+    listItem.appendChild(favoriteStar);
+
+    pokemonList.appendChild(listItem);
+  }
+
+  resultContent.appendChild(pokemonList);
+
+  const favoriteStars = document.getElementsByClassName("favorite-star");
+  for (let i = 0; i < favoriteStars.length; i++) {
+    favoriteStars[i].addEventListener("click", function () {
+      this.classList.toggle("selected");
+    });
   }
 }
 

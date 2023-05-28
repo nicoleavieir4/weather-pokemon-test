@@ -1,5 +1,3 @@
-// arquitetura mvc, listagem de pokemons e favoritar pokemon (banco de dados)
-
 const url = "http://localhost:3000/pokemon/search";
 
 function renderResult(result) {
@@ -17,14 +15,13 @@ function renderResult(result) {
   tbody.appendChild(namePok);
 
   const pokemonImageCell = document.createElement("td");
-  pokemonImageCell.rowSpan ="5"
+  pokemonImageCell.rowSpan = "5";
   const pokemonImage = document.createElement("img");
   pokemonImage.src = result.pokemon.image;
   pokemonImage.width = "80";
   pokemonImage.height = "80";
   pokemonImageCell.appendChild(pokemonImage);
   namePok.appendChild(pokemonImageCell);
-
 
   const city = document.createElement("tr");
   city.innerHTML = `<td>Cidade:</td><td>${result.name}</td>`;

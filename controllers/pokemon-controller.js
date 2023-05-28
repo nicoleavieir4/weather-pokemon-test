@@ -1,6 +1,8 @@
 const { getPokemon, getPokemonList } = require("../models/pokemon-api"); // MODEL módulo responsável por buscar o Pokémon na API;
 const service = require("../service/service");
 const weatherMap = require("../models/weather-map"); // MODEL módulo responsável por buscar a previsão do tempo na API
+const { Pokemon } = require("../models/pokemon");
+
 
 async function pokemonSearch(req, res) {
   const { city } = req.query; //recebe o valor do client
@@ -54,4 +56,28 @@ async function pokemonListSearch(req, res) {
   }
 }
 
-module.exports = { pokemonSearch, pokemonListSearch };
+async function favoritePokemon(req, res) {
+  console.log(req);
+  console.log(req.body);
+
+  const { name, type, favorite } = req.body; //recebe o valor do client, postando uma informacao no corpo da requisicao
+
+  console.log("Teste de favoritos");
+
+  try {
+    const newPokemon = await Pokemon.create({
+      name: name,
+      type: type,
+      favorite: favorite,
+    });
+    console.log(`O Pokemon ${newPokemon.name} foi adicionado aos favoritos!`); // return para sucesso e erro
+  } catch (err) {
+    console.error("Erro ao favoritar o Pokemon", err);
+  }
+
+  return res.status(200).json({
+    msg: "Teste ok!",
+  });
+}
+
+module.exports = { pokemonSearch, pokemonListSearch, favoritePokemon };

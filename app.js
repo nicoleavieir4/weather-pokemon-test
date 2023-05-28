@@ -6,6 +6,7 @@ var cors = require("cors");
 const port = 3000;
 
 server.use(cors());
+server.use(express.json());
 
 server.use(pokemonRoutes);
 
