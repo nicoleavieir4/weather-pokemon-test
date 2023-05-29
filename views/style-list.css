@@ -152,6 +152,18 @@ input#city.searched {
   margin-top: 20px;
 }
 
+.favorite-star {
+  background-image: url(./img/star.png);
+  background-size: cover;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.favorite-star.selected {
+  background-color: gold;
+}
+
 .footer-distributed {
   background-color: #292c2f;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -239,12 +251,4 @@ input#city.searched {
   .footer-distributed .footer-left p.footer-links {
     line-height: 1.8;
   }
-}
-
-.favorite-star {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-color: yellow;
-  margin-left: 5px;
 }

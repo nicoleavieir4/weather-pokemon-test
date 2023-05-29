@@ -1,4 +1,5 @@
 const url = "http://localhost:3000/pokemon-list/search";
+const favorites = {};
 
 function renderResult(result) {
   const resultContent = document.getElementById("result-content");
@@ -53,16 +54,31 @@ function renderResult(result) {
     favoriteStar.style.marginLeft = "10px";
     listItem.appendChild(favoriteStar);
 
+    // Verifica se o pokemon está favoritado e atualiza a classe CSS da estrela
+    if (favorites[pokemon.name]) {
+      favoriteStar.classList.add("selected");
+    }
+
+    // Adiciona evento de clique para favoritar/desfavoritar o pokemon
+    favoriteStar.addEventListener("click", function () {
+      toggleFavorite(pokemon.name, favoriteStar);
+    });
+
     pokemonList.appendChild(listItem);
   }
 
   resultContent.appendChild(pokemonList);
+}
 
-  const favoriteStars = document.getElementsByClassName("favorite-star");
-  for (let i = 0; i < favoriteStars.length; i++) {
-    favoriteStars[i].addEventListener("click", function () {
-      this.classList.toggle("selected");
-    });
+function toggleFavorite(pokemonName, favoriteStar) {
+  if (favorites[pokemonName]) {
+    // Remove dos favoritos
+    delete favorites[pokemonName];
+    favoriteStar.classList.remove("selected");
+  } else {
+    // Adiciona aos favoritos
+    favorites[pokemonName] = true;
+    favoriteStar.classList.add("selected");
   }
 }
 
@@ -77,6 +93,8 @@ function buttonClick() {
     .then(function (result) {
       console.log(result);
       renderResult(result);
+
+      cityInput.classList.add("searched");
     })
     .catch(function (error) {
       console.log(error);
