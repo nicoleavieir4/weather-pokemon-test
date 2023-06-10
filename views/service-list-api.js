@@ -61,7 +61,7 @@ function renderResult(result) {
 
     // Adiciona evento de clique para favoritar/desfavoritar o pokemon
     favoriteStar.addEventListener("click", function () {
-      toggleFavorite(pokemon.name, favoriteStar);
+      clickStar(pokemon.name, favoriteStar);
     });
 
     pokemonList.appendChild(listItem);
@@ -70,7 +70,7 @@ function renderResult(result) {
   resultContent.appendChild(pokemonList);
 }
 
-function toggleFavorite(pokemonName, favoriteStar) {
+function clickStar(pokemonName, favoriteStar) {
   if (favorites[pokemonName]) {
     // Remove dos favoritos
     delete favorites[pokemonName];
@@ -79,6 +79,30 @@ function toggleFavorite(pokemonName, favoriteStar) {
     // Adiciona aos favoritos
     favorites[pokemonName] = true;
     favoriteStar.classList.add("selected");
+    // Envia a requisição para favoritar o Pokémon
+    const data = {
+      name: pokemonName,
+      type: "", // Preencha com o tipo adequado do Pokémon, se necessário
+      favorite: true,
+    };
+
+    fetch("http://localhost:3000/favorite", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(function (response) {
+        if (response.ok) {
+          console.log(`O Pokémon ${pokemonName} foi favoritado com sucesso!`);
+        } else {
+          console.error("Erro ao favoritar o Pokémon");
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao favoritar o Pokémon", error);
+      });
   }
 }
 
@@ -86,17 +110,38 @@ function buttonClick() {
   const cityInput = document.getElementById("city");
   const params = { city: cityInput.value };
 
+  if (params.city === "") {
+    alert("Cidade inválida! Você deve inserir uma cidade válida.");
+    resetSystem();
+    return;
+  }
+
   fetch(url + "?" + new URLSearchParams(params))
-    .then(function (data) {
-      return data.json();
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Erro na resposta da API");
+      }
     })
     .then(function (result) {
       console.log(result);
       renderResult(result);
-
       cityInput.classList.add("searched");
     })
     .catch(function (error) {
       console.log(error);
+      resetSystem();
+      alert("Ocorreu um erro ao buscar os dados da cidade.");
+      return;
     });
+}
+
+function resetSystem() {
+  const resultContent = document.getElementById("result-content");
+  const cityInput = document.getElementById("city");
+
+  resultContent.innerHTML = "";
+  cityInput.value = "";
+  cityInput.classList.remove("searched");
 }

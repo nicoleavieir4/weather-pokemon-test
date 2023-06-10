@@ -69,6 +69,7 @@ body {
   min-width: 150px;
   white-space: nowrap;
   text-align: center;
+  perspective: 1000px;
 }
 
 .button:after {
@@ -104,10 +105,12 @@ body {
 
 .button:hover:before {
   width: 100%;
+  transform: scaleX(1); 
 }
 
 .button:hover:after {
   opacity: 0.5;
+  transform: scaleX(0);
 }
 
 input#city {

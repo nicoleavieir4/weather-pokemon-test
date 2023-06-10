@@ -45,19 +45,40 @@ function renderResult(result) {
 
 function buttonClick() {
   const cityInput = document.getElementById("city");
-  const pokemonInput = document.getElementById("result-content");
+  const params = { city: cityInput.value };
 
-  const params = { city: cityInput.value, pokemon: pokemonInput.innerText };
+  if (params.city === "") {
+    alert("Cidade inválida! Você deve inserir uma cidade válida.");
+    resetSystem();
+    return;
+  }
 
   fetch(url + "?" + new URLSearchParams(params))
-    .then(function (data) {
-      return data.json();
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Erro na resposta da API");
+      }
     })
     .then(function (result) {
       console.log(result);
       renderResult(result);
+      cityInput.classList.add("searched");
     })
     .catch(function (error) {
       console.log(error);
+      resetSystem();
+      alert("Ocorreu um erro ao buscar os dados da cidade.");
+      return;
     });
+}
+
+function resetSystem() {
+  const resultContent = document.getElementById("result-content");
+  const cityInput = document.getElementById("city");
+
+  resultContent.innerHTML = "";
+  cityInput.value = "";
+  cityInput.classList.remove("searched");
 }
