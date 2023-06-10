@@ -61,7 +61,7 @@ function renderResult(result) {
 
     // Adiciona evento de clique para favoritar/desfavoritar o pokemon
     favoriteStar.addEventListener("click", function () {
-      clickStar(pokemon.name, favoriteStar);
+      clickStar({ ...pokemon, type: result.type }, favoriteStar);
     });
 
     pokemonList.appendChild(listItem);
@@ -70,7 +70,10 @@ function renderResult(result) {
   resultContent.appendChild(pokemonList);
 }
 
-function clickStar(pokemonName, favoriteStar) {
+function clickStar(pokemon, favoriteStar) {
+  console.log(pokemon)
+  const { name: pokemonName, type } = pokemon;
+
   if (favorites[pokemonName]) {
     // Remove dos favoritos
     delete favorites[pokemonName];
@@ -79,14 +82,15 @@ function clickStar(pokemonName, favoriteStar) {
     // Adiciona aos favoritos
     favorites[pokemonName] = true;
     favoriteStar.classList.add("selected");
+
     // Envia a requisição para favoritar o Pokémon
     const data = {
       name: pokemonName,
-      type: "", // Preencha com o tipo adequado do Pokémon, se necessário
+      type, // Preencha com o tipo adequado do Pokémon, se necessário
       favorite: true,
     };
 
-    fetch("http://localhost:3000/favorite", {
+    fetch("http://localhost:3000/pokemon-favorite", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
