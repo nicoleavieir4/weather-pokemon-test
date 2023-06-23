@@ -39,9 +39,53 @@ function renderResult(result) {
   type.innerHTML = `<td>Tipo:</td><td>${result.type}</td>`;
   tbody.appendChild(type);
 
+  const favorite = document.createElement("tr");
+  const favoriteCell = document.createElement("td");
+  favoriteCell.colSpan = "3";
+
+  const favoritePokemonList = document.createElement("button");
+  favoritePokemonList.textContent = "Adicionar aos favoritos";
+  favoritePokemonList.onclick = () => {
+    buttonFavoriteClick(result);
+  };
+
+  favoritePokemonList.className = "button favorite-button";
+
+  // listItem.appendChild(favoritePokemonList);
+  favoriteCell.appendChild(favoritePokemonList);
+  favorite.appendChild(favoriteCell);
+  tbody.appendChild(favorite);
+
   table.appendChild(tbody);
   resultContent.appendChild(table);
 }
+
+function buttonFavoriteClick(result) {
+  const data = {
+      name: result.pokemon.name,
+      type: result.type, // Preencha com o tipo adequado do Pokémon, se necessário
+      image: result.pokemon.image,
+    };
+
+  fetch("http://localhost:3000/my-pokemons", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(function (response) {
+        if (response.ok) {
+          alert(`O Pokémon ${result.pokemon.name} foi favoritado com sucesso!`);
+        } else {
+          console.error("Erro ao favoritar o Pokémon");
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao favoritar o Pokémon", error);
+      });
+  }
+
 
 function buttonClick() {
   const cityInput = document.getElementById("city");

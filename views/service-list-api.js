@@ -70,45 +70,51 @@ function renderResult(result) {
   resultContent.appendChild(pokemonList);
 }
 
-function clickStar(pokemon, favoriteStar) {
-  console.log(pokemon)
-  const { name: pokemonName, type } = pokemon;
+// chamada nome e tipo
 
-  if (favorites[pokemonName]) {
-    // Remove dos favoritos
-    delete favorites[pokemonName];
-    favoriteStar.classList.remove("selected");
-  } else {
-    // Adiciona aos favoritos
-    favorites[pokemonName] = true;
-    favoriteStar.classList.add("selected");
 
-    // Envia a requisição para favoritar o Pokémon
-    const data = {
-      name: pokemonName,
-      type, // Preencha com o tipo adequado do Pokémon, se necessário
-      favorite: true,
-    };
 
-    fetch("http://localhost:3000/pokemon-favorite", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then(function (response) {
-        if (response.ok) {
-          console.log(`O Pokémon ${pokemonName} foi favoritado com sucesso!`);
-        } else {
-          console.error("Erro ao favoritar o Pokémon");
-        }
-      })
-      .catch(function (error) {
-        console.error("Erro ao favoritar o Pokémon", error);
-      });
-  }
-}
+// function clickStar(pokemon, favoriteStar) {
+//   console.log(pokemon);
+//   const pokemonName = pokemon.name;
+//   const type = pokemon.type;
+
+//   if (favorites[pokemonName]) {
+//     // Remove dos favoritos, operador "delete" exclui a chave pokemonName do objeto favorites
+//     delete favorites[pokemonName];
+//     favoriteStar.classList.remove("selected");
+//     alert(`O Pokémon ${pokemonName} foi removido dos favoritos com sucesso`);
+//   } else {
+//     // Adiciona aos favoritos
+//     favorites[pokemonName] = true;
+//     favoriteStar.classList.add("selected");
+
+//     // Envia a requisição para favoritar o Pokémon
+//     const data = {
+//       name: pokemonName,
+//       type: type, // Preencha com o tipo adequado do Pokémon, se necessário
+//       favorite: true,
+//     };
+
+//     fetch("http://localhost:3000/pokemon-favorite", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(data),
+//     })
+//       .then(function (response) {
+//         if (response.ok) {
+//           alert(`O Pokémon ${pokemonName} foi favoritado com sucesso!`);
+//         } else {
+//           console.error("Erro ao favoritar o Pokémon");
+//         }
+//       })
+//       .catch(function (error) {
+//         console.error("Erro ao favoritar o Pokémon", error);
+//       });
+//   }
+// }
 
 function buttonClick() {
   const cityInput = document.getElementById("city");

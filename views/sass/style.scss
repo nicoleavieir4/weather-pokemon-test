@@ -113,6 +113,92 @@ body {
   transform: scaleX(0);
 }
 
+.button.remove-button {
+  background-color: #f44336;
+}
+
+.button.remove-button:before {
+  background-color: #bc1111;
+}
+
+.button.remove-button:hover {
+  background-color: #bc1111;
+  color: #fff;
+}
+
+.button.remove-button:hover:before {
+  width: 100%;
+  transform: scaleX(1);
+}
+
+.button.remove-button:hover:after {
+  opacity: 0.5;
+  transform: scaleX(0);
+}
+
+.button.remove-button:hover,
+.button.remove-button:hover:before,
+.button.remove-button:hover:after {
+  background-color: #bc1111;
+}
+
+.button.remove-button.remove {
+  background-color: #bc1111;
+}
+
+.button.favorite-button.remove:before {
+  background-color: #76d820;
+}
+
+.button.favorite-button.favorite:hover,
+.button.favorite-button.favorite:hover:before,
+.button.favorite-button.favorite:hover:after {
+  background-color: #76d820;
+}
+
+.button.favorite-button {
+  background-color: #05920e;
+}
+
+.button.favorite-button:before {
+  background-color: #05920e;
+}
+
+.button.favorite-button:hover {
+  background-color: #05920e;
+  color: black;
+}
+
+.button.favorite-button:hover:before {
+  width: 100%;
+  transform: scaleX(1);
+}
+
+.button.favorite-button:hover:after {
+  opacity: 0.5;
+  transform: scaleX(0);
+}
+
+.button.favorite-button:hover,
+.button.favorite-button:hover:before,
+.button.favorite-button:hover:after {
+  background-color: #05920e;
+}
+
+.button.favorite-button.favorite {
+  background-color: #05920e;
+}
+
+.button.favorite-button.favorite:before {
+  background-color: #05920e;
+}
+
+.button.favorite-button.favorite:hover,
+.button.favorite-button.favorite:hover:before,
+.button.favorite-button.favorite:hover:after {
+  background-color: #05920e;
+}
+
 input#city {
   margin: 0 auto;
   width: 100%;

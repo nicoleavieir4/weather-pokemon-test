@@ -16,7 +16,9 @@ const Pokemon = database.define("pokemons", {
   type: {
     type: Sequelize.STRING,
   },
-  favorite: Sequelize.BOOLEAN,
+  image: {
+    type: Sequelize.STRING,
+  },
 });
 
 module.exports = { Pokemon };
