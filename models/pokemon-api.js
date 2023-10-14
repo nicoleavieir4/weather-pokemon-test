@@ -30,25 +30,19 @@ async function getPokemonList(type) {
 
   const iterations = [...Array(10).keys()];
 
-  const pokemons = await Promise.all(iterations.map(async () => {
-    const index = sortIndex(0, pokemonList.length); // sorteamos um pokemon dentro da lista
-    const pokemon = pokemonList[index].pokemon; // obtemos o pokemon sorteado da lista
-    const imageUrl = pokemon.url; // obtemos a url do pokemon sorteado
-    const responseImg = await axios.get(imageUrl);
+  const pokemons = await Promise.all(
+    iterations.map(async () => {
+      const index = sortIndex(0, pokemonList.length); // sorteamos um pokemon dentro da lista
+      const pokemon = pokemonList[index].pokemon; // obtemos o pokemon sorteado da lista
+      const imageUrl = pokemon.url; // obtemos a url do pokemon sorteado
+      const responseImg = await axios.get(imageUrl);
 
-    const image = responseImg.data.sprites.front_default;
+      const image = responseImg.data.sprites.front_default;
 
-    return { name: pokemon.name, image: image }; // adiciona o pokemon na lista
-  }))
+      return { name: pokemon.name, image: image }; // adiciona o pokemon na lista
+    })
+  );
 
-  // for (let i = 0; i < 10; i++) {
-  //   const index = sortIndex(0, pokemonList.length); // sorteamos um pokemon dentro da lista
-  //   const pokemon = pokemonList[index].pokemon; // obtemos o pokemon sorteado da lista
-  //   const imageUrl = pokemon.url; // obtemos a url do pokemon sorteado
-  //   const responseImg = await axios.get(imageUrl);
-  //   const image = responseImg.data.sprites.front_default;
-  //   pokemons.push({ name: pokemon.name, image: image }); // adiciona o pokemon na lista
-  // }
   return pokemons; // retorna a lista de pokemons
 }
 

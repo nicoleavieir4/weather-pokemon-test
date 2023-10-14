@@ -22,19 +22,3 @@ const Pokemon = database.define("pokemons", {
 });
 
 module.exports = { Pokemon };
-
-// module.exports = (sequelize, DataTypes) => {
-//   class Pokemon extends Model {
-//     static associate(models) {
-//     }
-//   }
-//   Pokemon.init({
-//     name: DataTypes.STRING,
-//     type: DataTypes.STRING,
-//     favorite: DataTypes.BOOLEAN
-//   }, {
-//     sequelize,
-//     modelName: 'Pokemon',
-//   });
-//   return Pokemon;
-// };

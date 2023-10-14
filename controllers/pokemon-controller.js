@@ -97,62 +97,73 @@ async function getFavoriteList(req, res) {
 }
 
 async function favoritePokemon(req, res) {
-  const { name, type, image } = req.body; //recebe o valor do client, postando uma informacao no corpo da requisicao
-  console.log(req.body);
+  const { name, type, image } = req.body;
 
   try {
-    const [pokemon, created] = await Pokemon.findOrCreate({
-      where: { name },
-      defaults: { name, type, image },
-    });
+    const existingPokemon = await Pokemon.findOne({ where: { name } });
 
-    return res.status(200).json({
-      success: true,
-      message: `O Pokémon ${pokemon.name} foi adicionado aos favoritos e salvo no banco de dados!`,
-      data: { ...pokemon, created },
-    });
+    if (existingPokemon) {
+      // O Pokémon já existe no banco de dados.
+      return res.status(409).json({
+        success: false,
+        error: `O Pokémon ${existingPokemon.name} já foi favoritado anteriormente.`,
+      });
+    } else {
+      // O Pokémon não existe no banco de dados. Crie um novo.
+      const newPokemon = await Pokemon.create({ name, type, image });
 
-    // // // Primeiro verificamos se existe um pokemon no banco com o nome fornecido
-    // // let pokemon = await Pokemon.findOne({ where: { name } });
-
-    // // // Se não existir, iremos criar um novo item no banco, já com a flag favorite = true
-    // // if (!pokemon) {
-    // //   pokemon = await Pokemon.create({
-    // //     name: name,
-    // //     type: type,
-    // //     favorite: true,
-    // //   });
-    // // } else {
-    // //   // Caso contrário iremos atualizar o que ja existe
-    // //   await Pokemon.update(
-    // //     { favorite: !pokemon.favorite },
-    // //     { where: { id: pokemon.id } }
-    // //   );
-    // }
-
-    // return res.status(200).json({
-    //   success: true,
-    //   message: `O Pokémon ${pokemon.name} foi adicionado aos favoritos e salvo no banco de dados!`,
-    //   method: req.method,
-    //   headers: req.headers,
-    //   body: {
-    //     ...req.body,
-    //     id: pokemon.id,
-    //     favorite: pokemon ? !pokemon.favorite : true,
-    //   },
-    // });
+      return res.status(201).json({
+        success: true,
+        message: `O Pokémon ${newPokemon.name} foi adicionado aos favoritos e salvo no banco de dados!`,
+        data: newPokemon,
+      });
+    }
   } catch (err) {
     console.error("Erro ao favoritar o Pokémon", err);
-
     return res.status(500).json({
       success: false,
       error: "Erro ao favoritar o Pokémon",
-      method: req.method,
-      headers: req.headers,
-      body: req.body,
     });
   }
 }
+
+// async function favoritePokemon(req, res) {
+//   const { name, type, image } = req.body; //recebe o valor do client, postando uma informacao no corpo da requisicao
+//   console.log(req.body);
+
+//   try {
+//     // Verifique se o Pokémon já existe no banco de dados com base no nome.
+//     const existingPokemon = await Pokemon.findOne({ where: { name } });
+
+//     if (existingPokemon) {
+//       // O Pokémon já existe no banco de dados. Você pode optar por atualizá-lo aqui.
+//       // existingPokemon.type = type;
+//       // existingPokemon.image = image;
+//       // await existingPokemon.save();
+
+//       return res.status(200).json({
+//         success: true,
+//         message: `O Pokémon ${existingPokemon.name} já existe em seu banco de dados!`,
+//         data: existingPokemon,
+//       });
+//     } else {
+//       // O Pokémon não existe no banco de dados. Crie um novo.
+//       const newPokemon = await Pokemon.create({ name, type, image });
+
+//       return res.status(201).json({
+//         success: true,
+//         message: `O Pokémon ${newPokemon.name} foi adicionado aos favoritos e salvo no banco de dados!`,
+//         data: newPokemon,
+//       });
+//     }
+//   } catch (err) {
+//     console.error("Erro ao favoritar o Pokémon", err);
+//     return res.status(500).json({
+//       success: false,
+//       error: "Erro ao favoritar o Pokémon",
+//     });
+//   }
+// }
 
 async function deletePokemon(req, res) {
   const { id } = req.params;

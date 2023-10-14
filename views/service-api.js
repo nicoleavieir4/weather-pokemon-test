@@ -62,30 +62,38 @@ function renderResult(result) {
 
 function buttonFavoriteClick(result) {
   const data = {
-      name: result.pokemon.name,
-      type: result.type, // Preencha com o tipo adequado do Pokémon, se necessário
-      image: result.pokemon.image,
-    };
+    name: result.pokemon.name,
+    type: result.type, // Preencha com o tipo adequado do Pokémon, se necessário
+    image: result.pokemon.image,
+  };
 
   fetch("http://localhost:3000/my-pokemons", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then(function (response) {
+      if (response.ok) {
+        // Se a requisição for bem-sucedida (status 200), exiba um alerta de sucesso.
+        alert(
+          `O Pokémon ${result.pokemon.name} foi favoritado com sucesso e salvo no banco de dados!`
+        );
+      } else if (response.status === 409) {
+        // Se a requisição retorna um status 409 (conflito), você pode tratar como um alerta de que o Pokémon já foi favoritado.
+        alert(
+          `O Pokémon ${result.pokemon.name} já foi favoritado anteriormente.`
+        );
+      } else {
+        // Qualquer outro status é tratado como um erro.
+        console.error("Erro ao favoritar o Pokémon");
+      }
     })
-      .then(function (response) {
-        if (response.ok) {
-          alert(`O Pokémon ${result.pokemon.name} foi favoritado com sucesso!`);
-        } else {
-          console.error("Erro ao favoritar o Pokémon");
-        }
-      })
-      .catch(function (error) {
-        console.error("Erro ao favoritar o Pokémon", error);
-      });
-  }
-
+    .catch(function (error) {
+      console.error("Erro ao favoritar o Pokémon", error);
+    });
+}
 
 function buttonClick() {
   const cityInput = document.getElementById("city");
